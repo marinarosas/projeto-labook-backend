@@ -33,3 +33,19 @@ VALUES
     ("p001", "u001", "Feliz por estar no curso!"),
     ("p002", "u001", "Cansativo o dia!"),
     ("p003", "u002", "Trabalhando muito!");
+
+CREATE TABLE likes_dislikes(
+    user_id TEXT NOT NULL,
+    post_id TEXT NOT NULL,
+    like INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (post_id) REFERENCES posts(id)
+);
+
+SELECT * FROM likes_dislikes;
+
+INSERT INTO likes_dislikes (user_id, post_id, like)
+VALUES
+    ("u001", "p001", 397),
+    ("u001", "p002", 269),
+    ("u002", "p003", 35);
