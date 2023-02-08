@@ -5,7 +5,7 @@ export class PostsDatabase extends BaseDatabase{
 
     public static TABLE_POSTS = "posts"
 
-    public async findPost (q: string | undefined){
+    public async findPosts (q: string | undefined){
 
         let postsDB
 
