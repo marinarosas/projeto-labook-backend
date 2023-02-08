@@ -110,7 +110,7 @@ export class PostBusiness {
             const newPost = new Post(
                 idToEdit,
                 postsDB.creator_id,
-                postsDB.content,
+                content,
                 postsDB.likes,
                 postsDB.dislikes,
                 postsDB.created_at,
