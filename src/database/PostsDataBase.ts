@@ -4,6 +4,7 @@ import { BaseDatabase } from "./BaseDatabase";
 export class PostsDatabase extends BaseDatabase{
 
     public static TABLE_POSTS = "posts"
+    public static TABLE_LIKESDISLIKES = "likes_dislikes"
 
     public async findPosts (q: string | undefined){
 
@@ -40,6 +41,15 @@ export class PostsDatabase extends BaseDatabase{
     }
 
     public async deletePost(id: string | undefined){
-        await BaseDatabase.connection(PostsDatabase.TABLE_POSTS).del().where({id})
+
+        await BaseDatabase
+        .connection(PostsDatabase.TABLE_LIKESDISLIKES)
+        .del()
+        .where({post_id:id})
+
+        await BaseDatabase
+        .connection(PostsDatabase.TABLE_POSTS)
+        .del()
+        .where({id})    
     }
 }

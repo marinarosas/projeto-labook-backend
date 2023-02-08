@@ -37,6 +37,6 @@ app.get("/posts", postDatabase.getPosts)
 
 app.post("/posts", postDatabase.createPost)
 
-app.put("/post/:id", postDatabase.editPost)
+app.put("/posts/:id", postDatabase.editPost)
 
-// app.delete("/posts/:id", postDatabase.deletePost)
+app.delete("/posts/:id", postDatabase.deletePost)

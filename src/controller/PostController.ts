@@ -64,8 +64,7 @@ export class PostController{
             
             const input = {
                 idToEdit: req.params.id,
-                content: req.body.content,
-                updateAt: req.body.updateAt
+                content: req.body.content
             }
             
             const postBusiness = new PostBusiness()

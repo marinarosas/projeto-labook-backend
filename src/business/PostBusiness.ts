@@ -85,7 +85,7 @@ export class PostBusiness {
 
     public editPost = async (input: any) => {
 
-        const {idToEdit, content, updateAt} = input
+        const {idToEdit, content } = input
 
         if (typeof idToEdit !== "string") {
             
@@ -151,13 +151,12 @@ export class PostBusiness {
                 throw new Error("Id não encontrado")
             }
     
-            if (postExist) {
-                await postsDatabase.deletePost(id)
-            }
+            await postsDatabase.deletePost(id)
 
             return ({
-                message: "Post deletado com sucesso"
+                    message: "Post deletado com sucesso"
             })
+            
     }
 
 }
