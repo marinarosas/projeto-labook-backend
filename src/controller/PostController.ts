@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { PostBusiness } from "../business/PostBusiness"
+import { BaseError } from "../errors/BaseError"
 // import { PostsDatabase } from "../database/PostsDataBase"
 // import { Post } from "../models/Post"
 // import { TPostsDB } from "../types"
@@ -18,12 +19,8 @@ export class PostController{
         } catch (error) {
             console.log(error)
     
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
                 res.send("Erro inesperado")
             }
@@ -47,12 +44,8 @@ export class PostController{
         } catch (error) {
             console.log(error)
     
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
                 res.send("Erro inesperado")
             }
@@ -75,12 +68,8 @@ export class PostController{
         } catch (error) {
             console.log(error)
     
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
                 res.send("Erro inesperado")
             }
@@ -99,12 +88,8 @@ export class PostController{
         } catch (error) {
             console.log(error)
     
-            if (req.statusCode === 200) {
-                res.status(500)
-            }
-    
-            if (error instanceof Error) {
-                res.send(error.message)
+            if (error instanceof BaseError) {
+                res.status(error.statusCode).send(error.message)
             } else {
                 res.send("Erro inesperado")
             }

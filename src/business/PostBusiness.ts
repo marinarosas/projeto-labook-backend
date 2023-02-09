@@ -1,4 +1,6 @@
 import { PostsDatabase } from "../database/PostsDataBase"
+import { BadRequestError } from "../errors/BadRequestError"
+import { NotFoundError } from "../errors/NotFoundError"
 import { Post } from "../models/Post"
 import { TPostsDB } from "../types"
 
@@ -30,24 +32,24 @@ export class PostBusiness {
     
             if (typeof id !== "string") {
                
-                throw new Error("'id' deve ser string")
+                throw new BadRequestError("'id' deve ser string")
             }
     
             if (typeof creatorId !== "string") {
                
-                throw new Error("'creatorId' deve ser string")
+                throw new BadRequestError("'creatorId' deve ser string")
             }
 
             if (typeof content !== "string") {
                
-                throw new Error("'content' deve ser string")
+                throw new BadRequestError("'content' deve ser string")
             }
     
             const postsDatabase = new PostsDatabase()
             const postDBExist = await postsDatabase.findPostById(id)
             
             if (postDBExist) {
-                throw new Error("'id' já existe")
+                throw new BadRequestError("'id' já existe")
             }
     
             let newLikes = 0
@@ -89,12 +91,12 @@ export class PostBusiness {
 
         if (typeof idToEdit !== "string") {
             
-            throw new Error("'id' deve ser string")
+            throw new BadRequestError("'id' deve ser string")
         }
 
         if (typeof content !== "string") {
             
-            throw new Error("'title' deve ser string")
+            throw new BadRequestError("'title' deve ser string")
         }
 
         const postsDatabase = new PostsDatabase()
@@ -102,7 +104,7 @@ export class PostBusiness {
 
         if (!postsDB) {
             
-            throw new Error("'id' não encontrado")
+            throw new NotFoundError("'id' não encontrado")
         }
 
         if(postsDB){
@@ -148,7 +150,7 @@ export class PostBusiness {
     
             if (!postExist) {
                
-                throw new Error("Id não encontrado")
+                throw new NotFoundError("Id não encontrado")
             }
     
             await postsDatabase.deletePost(id)
