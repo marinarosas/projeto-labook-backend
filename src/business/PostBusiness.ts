@@ -1,10 +1,14 @@
 import { PostsDatabase } from "../database/PostsDataBase"
+import { PostDTO } from "../dtos/PostDTO"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Post } from "../models/Post"
 import { TPostsDB } from "../types"
 
 export class PostBusiness {
+    constructor(
+        private postsDatabase: PostsDatabase
+    ){}
 
     public getPosts = async (q: string | undefined) =>{
 
@@ -30,23 +34,8 @@ export class PostBusiness {
 
         const { id, creatorId, content } = input
     
-            if (typeof id !== "string") {
-               
-                throw new BadRequestError("'id' deve ser string")
-            }
-    
-            if (typeof creatorId !== "string") {
-               
-                throw new BadRequestError("'creatorId' deve ser string")
-            }
-
-            if (typeof content !== "string") {
-               
-                throw new BadRequestError("'content' deve ser string")
-            }
-    
-            const postsDatabase = new PostsDatabase()
-            const postDBExist = await postsDatabase.findPostById(id)
+            
+            const postDBExist = await this.postsDatabase.findPostById(id)
             
             if (postDBExist) {
                 throw new BadRequestError("'id' já existe")
@@ -77,12 +66,12 @@ export class PostBusiness {
                 updated_at: newPost.getUpdatedAtPost()
             }
   
-            postsDatabase.insertPost(newPostDB)
+            await this.postsDatabase.insertPost(newPostDB)
 
-            return ({
-                message: "Post criado com sucesso",
-                post: newPost
-            })
+            const postDTO = new PostDTO()
+            const output = postDTO.createPostOutput(newPost)
+
+            return output
     }
 
     public editPost = async (input: any) => {
@@ -99,8 +88,7 @@ export class PostBusiness {
             throw new BadRequestError("'title' deve ser string")
         }
 
-        const postsDatabase = new PostsDatabase()
-        const postsDB = await postsDatabase.findPostById(idToEdit)
+        const postsDB = await this.postsDatabase.findPostById(idToEdit)
 
         if (!postsDB) {
             
@@ -132,7 +120,7 @@ export class PostBusiness {
     
             newPost.setContentPost(newPostDB.content)
 
-            await postsDatabase.updatePostById(newPostDB)
+            await this.postsDatabase.updatePostById(newPostDB)
 
             return ({
                 message: "Post editado com sucesso",
@@ -145,15 +133,14 @@ export class PostBusiness {
 
     public deletePost = async (id: string) =>{
         
-            const postsDatabase = new PostsDatabase()
-            const postExist = await postsDatabase.findPostById(id)
+            const postExist = await this.postsDatabase.findPostById(id)
     
             if (!postExist) {
                
                 throw new NotFoundError("Id não encontrado")
             }
     
-            await postsDatabase.deletePost(id)
+            await this.postsDatabase.deletePost(id)
 
             return ({
                     message: "Post deletado com sucesso"
