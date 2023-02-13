@@ -23,3 +23,12 @@ export type TCreator = {
         id: string,
         name: string
 }
+
+export type TUsersDB = {
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: string,
+    created_at: string 
+}
