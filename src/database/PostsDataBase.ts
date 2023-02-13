@@ -40,7 +40,7 @@ export class PostsDatabase extends BaseDatabase{
         .where({id: newPostDB.id})
     }
 
-    public async deletePost(id: string | undefined){
+    public async deletePost(id: string){
 
         await BaseDatabase
         .connection(PostsDatabase.TABLE_LIKESDISLIKES)

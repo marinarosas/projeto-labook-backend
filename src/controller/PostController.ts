@@ -6,13 +6,15 @@ import { BaseError } from "../errors/BaseError"
 // import { TPostsDB } from "../types"
 
 export class PostController{
+    constructor(
+        private postBusiness: PostBusiness
+    ){}
 
     public getPosts = async (req: Request, res: Response) => {
         try {
             const q = req.query.q as string | undefined
     
-            const postBusiness = new PostBusiness()
-            const output = await postBusiness.getPosts(q)
+            const output = await this.postBusiness.getPosts(q)
         
             res.status(200).send(output)
     
@@ -36,8 +38,7 @@ export class PostController{
                 content: req.body.content
             }
 
-            const postBusiness = new PostBusiness()
-            const output = await postBusiness.createPost(input)
+            const output = await this.postBusiness.createPost(input)
            
             res.status(201).send(output)
 
@@ -60,8 +61,7 @@ export class PostController{
                 content: req.body.content
             }
             
-            const postBusiness = new PostBusiness()
-            const output = await postBusiness.editPost(input)
+            const output = await this.postBusiness.editPost(input)
     
                 res.status(201).send(output)            
 
@@ -80,9 +80,8 @@ export class PostController{
         try {
             const id = req.params.id
     
-            const postDatabase = new PostBusiness()
-            const output = await postDatabase.deletePost(id)
-    
+            const output = await this.postBusiness.deletePost(id)
+            console.log(output, "AQUIIIII OUTPUT")
             res.status(200).send(output)
     
         } catch (error) {
