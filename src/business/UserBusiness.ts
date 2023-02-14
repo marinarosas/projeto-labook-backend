@@ -3,12 +3,13 @@ import { GetUsersInput, GetUsersOutput, LoginInput, LoginOutput, SignupInput, Si
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { User } from "../models/User";
+import { IdGenerator } from "../services/IdGenerator";
 import { USER_ROLES } from "../types";
 
 export class UserBusiness {
     constructor(
         private usersDatabase: UsersDatabase,
-        // private idGenerator: IdGenerator,
+        private idGenerator: IdGenerator,
         // private tokenManager: TokenManager
     ) {}
 
@@ -68,16 +69,16 @@ export class UserBusiness {
         const newUserDB = newUser.toDBModel()
         await this.usersDatabase.insertUser(newUserDB)
 
-        const tokenPayload: TokenPayload = {
-            id: newUser.getId(),
-            name: newUser.getName(),
-            role: newUser.getRole()
-        }
-        const token = this.tokenManager.createToken(tokenPayload)
+        // const tokenPayload: TokenPayload = {
+        //     id: newUser.getId(),
+        //     name: newUser.getName(),
+        //     role: newUser.getRole()
+        // }
+        // const token = this.tokenManager.createToken(tokenPayload)
 
         const output: SignupOutput = {
             message: "Cadastro realizado com sucesso",
-            token: token
+            token: "token"
         }
 
         return output
@@ -110,12 +111,12 @@ export class UserBusiness {
                 role: userDB.role
         }
 
-        const token = this.tokenManager.createToken(getToken)
+        // const token = this.tokenManager.createToken(getToken)
 
 
         const output: LoginOutput = {
             message: "Login realizado com sucesso",
-            token: token
+            token: "token"
         }
 
         return output
