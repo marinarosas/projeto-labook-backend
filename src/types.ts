@@ -1,4 +1,9 @@
-export type TPostsDB ={
+export enum USER_ROLES {
+    NORMAL = "NORMAL",
+    ADMIN = "ADMIN"
+}
+
+export interface TPostsDB {
     id: string,
     creator_id: string,
     content: string,
@@ -8,7 +13,7 @@ export type TPostsDB ={
     updated_at: string
 }
 
-export type TGetPost = {
+export interface TGetPost {
     id: string,
     creator_id: string,
     content: string,
@@ -19,16 +24,25 @@ export type TGetPost = {
     creator: TCreator
 }
 
-export type TCreator = {
-        id: string,
-        name: string
+export interface TCreator {
+    id: string,
+    name: string
 }
 
-export type TUsersDB = {
+export interface TUsersDB {
     id: string,
     name: string,
     email: string,
     password: string,
     role: string,
-    created_at: string 
+    created_at: string
+}
+
+export interface UserModel {
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: string,
+    createdAt: string
 }
