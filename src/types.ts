@@ -1,3 +1,8 @@
+export enum USER_ROLES {
+    NORMAL = "NORMAL",
+    ADMIN = "ADMIN"
+}
+
 export type TPostsDB ={
     id: string,
     creator_id: string,
