@@ -4,8 +4,8 @@ import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { User } from "../models/User";
 import { IdGenerator } from "../services/IdGenerator";
-import { TokenManager, TokenPayload } from "../services/TokenManager";
-import { USER_ROLES } from "../types";
+import { TokenManager} from "../services/TokenManager";
+import { USER_ROLES, TokenPayload  } from "../types";
 
 export class UserBusiness {
     constructor(
@@ -102,7 +102,9 @@ export class UserBusiness {
             throw new NotFoundError("'email' não encontrado")
         }
 
-        if (password !== userDB.password) {
+        const checkUser = await this.usersDatabase.checkUser(email, password)
+
+        if (!checkUser) {
             throw new BadRequestError("'email' ou 'password' incorretos")
         }
 

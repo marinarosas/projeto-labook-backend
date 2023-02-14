@@ -1,20 +1,8 @@
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv' //veja como fazer essa importação na página de "Variáveis de ambiente (ENV)"
+import { TokenPayload } from '../types'
 
 dotenv.config()
-
-// esse enum pode ser alocado para outro arquivo
-export enum USER_ROLES {
-    NORMAL = "NORMAL",
-    ADMIN = "ADMIN"
-}
-
-// essa interface também pode ser alocada para outro arquivo
-export interface TokenPayload {
-    id: string,
-    name: string,
-    role: USER_ROLES
-}
 
 export class TokenManager {
 

@@ -1,10 +1,10 @@
-import { TUsersDB } from "../types"
+import { UserModel } from "../types"
 
 export interface GetUsersInput {
     q: unknown
 }
 
-export type GetUsersOutput = TUsersDB[]
+export type GetUsersOutput = UserModel[]
 
 export interface SignupInput {
     // id: unknown,

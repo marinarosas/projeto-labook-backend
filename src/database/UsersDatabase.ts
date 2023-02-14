@@ -59,4 +59,15 @@ export class UsersDatabase extends BaseDatabase{
         .del()
         .where({id})    
     }
+
+    public async checkUser (email: string, password: string){
+        if(email){
+          const userDB: TUsersDB[] =  await BaseDatabase
+        .connection(UsersDatabase.TABLE_USERS)
+        .where({email: email, password: password})
+
+        return userDB
+
+        }
+    }
 }
