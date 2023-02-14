@@ -34,7 +34,7 @@ export interface TUsersDB {
     name: string,
     email: string,
     password: string,
-    role: string,
+    role: USER_ROLES,
     created_at: string
 }
 
@@ -43,6 +43,12 @@ export interface UserModel {
     name: string,
     email: string,
     password: string,
-    role: string,
+    role: USER_ROLES,
     createdAt: string
+}
+
+export interface TokenPayload {
+    id: string,
+    name: string,
+    role: USER_ROLES
 }
