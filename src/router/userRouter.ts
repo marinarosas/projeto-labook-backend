@@ -1,15 +1,16 @@
 import express from 'express'
-import { PostBusiness } from '../business/PostBusiness'
-import { PostController } from '../controller/PostController'
-import { PostsDatabase } from '../database/PostsDataBase'
+import { UserBusiness } from '../business/UserBusiness'
+import { UserController } from '../controller/UserController'
+import { UsersDatabase } from '../database/UsersDatabase'
 
 export const userRouter = express.Router()
 
-// const postController = new PostController(
-//     new PostBusiness(
-//         new PostsDatabase
-//     )
-// )
+const userController = new UserController(
+    new UserBusiness(
+        new UsersDatabase
+    )
+)
 
-userRouter.post("/", postController.getPosts)
-userRouter.post("/", postController.createPost)
+userRouter.get("/", userController.getUsers)
+userRouter.post("/signup", userController.signup)
+userRouter.post("/login", userController.login)

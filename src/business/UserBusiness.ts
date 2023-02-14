@@ -1,7 +1,9 @@
 import { UsersDatabase } from "../database/UsersDatabase";
-import { GetUsersInput, GetUsersOutput } from "../dtos/UserDTO";
+import { GetUsersInput, GetUsersOutput, LoginInput, LoginOutput, SignupInput, SignupOutput } from "../dtos/UserDTO";
 import { BadRequestError } from "../errors/BadRequestError";
+import { NotFoundError } from "../errors/NotFoundError";
 import { User } from "../models/User";
+import { USER_ROLES } from "../types";
 
 export class UserBusiness {
     constructor(
@@ -40,10 +42,6 @@ export class UserBusiness {
     public signup = async (input: SignupInput): Promise<SignupOutput> => {
         const { name, email, password } = input
 
-        // if (typeof id !== "string") {
-        //     throw new BadRequestError("'id' deve ser string")
-        // }
-
         if (typeof name !== "string") {
             throw new BadRequestError("'name' deve ser string")
         }
@@ -57,12 +55,6 @@ export class UserBusiness {
         }
 
         const id = this.idGenerator.generate()
-
-        // const userDBExists = await this.usersDatabase.findUserById(id)
-
-        // if (userDBExists) {
-        //     throw new BadRequestError("'id' já existe")
-        // }
 
         const newUser = new User(
             id,
