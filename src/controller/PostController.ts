@@ -33,7 +33,6 @@ export class PostController{
         try {
     
             const input = {
-                id: req.body.id,
                 creatorId: req.body.creatorId,
                 content: req.body.content
             }

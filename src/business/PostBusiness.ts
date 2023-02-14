@@ -1,13 +1,17 @@
 import { PostsDatabase } from "../database/PostsDataBase"
+import { UsersDatabase } from "../database/UsersDatabase"
 import { CreatePostInputDTO, EditPostInputDTO, PostDTO } from "../dtos/PostDTO"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Post } from "../models/Post"
+import { IdGenerator } from "../services/IdGenerator"
 import { TPostsDB } from "../types"
 
 export class PostBusiness {
     constructor(
-        private postsDatabase: PostsDatabase
+        private postsDatabase: PostsDatabase,
+        private idGenerator: IdGenerator,
+        private usersDatabase: UsersDatabase
     ) { }
 
     public getPosts = async (q: string | undefined) => {
@@ -25,21 +29,20 @@ export class PostBusiness {
             postDB.updated_at
         ))
 
-        //const finalPost = await postsDatabase()
-
         return posts
     }
 
     public createPost = async (input: CreatePostInputDTO) => {
 
-        const { id, creatorId, content } = input
+        const { creatorId, content } = input
 
+        const id = this.idGenerator.generate()
 
-        const postDBExist = await this.postsDatabase.findPostById(id)
+        // const idExist = await this.usersDatabase.findUserById(creatorId)
 
-        if (postDBExist) {
-            throw new BadRequestError("'id' já existe")
-        }
+        // if(!idExist){
+        //     throw new BadRequestError("id não encontrado")
+        // } 
 
         let newLikes = 0
         let newDislikes = 0
