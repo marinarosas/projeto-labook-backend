@@ -4,13 +4,14 @@ import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { User } from "../models/User";
 import { IdGenerator } from "../services/IdGenerator";
+import { TokenManager, TokenPayload } from "../services/TokenManager";
 import { USER_ROLES } from "../types";
 
 export class UserBusiness {
     constructor(
         private usersDatabase: UsersDatabase,
         private idGenerator: IdGenerator,
-        // private tokenManager: TokenManager
+        private tokenManager: TokenManager
     ) {}
 
     public getUsers = async (input: GetUsersInput): Promise<GetUsersOutput> => {
@@ -69,16 +70,16 @@ export class UserBusiness {
         const newUserDB = newUser.toDBModel()
         await this.usersDatabase.insertUser(newUserDB)
 
-        // const tokenPayload: TokenPayload = {
-        //     id: newUser.getId(),
-        //     name: newUser.getName(),
-        //     role: newUser.getRole()
-        // }
-        // const token = this.tokenManager.createToken(tokenPayload)
+        const tokenPayload: TokenPayload = {
+            id: newUser.getIdUser(),
+            name: newUser.getNameUser(),
+            role: newUser.getRoleUser()
+        }
+        const token = this.tokenManager.createToken(tokenPayload)
 
         const output: SignupOutput = {
             message: "Cadastro realizado com sucesso",
-            token: "token"
+            token: token
         }
 
         return output
@@ -105,18 +106,18 @@ export class UserBusiness {
             throw new BadRequestError("'email' ou 'password' incorretos")
         }
 
-        const getToken = {
+        const tokenPayload: TokenPayload = {
                 id: userDB.id,
                 name: userDB.name,
                 role: userDB.role
         }
 
-        // const token = this.tokenManager.createToken(getToken)
+        const token = this.tokenManager.createToken(tokenPayload)
 
 
         const output: LoginOutput = {
             message: "Login realizado com sucesso",
-            token: "token"
+            token: token
         }
 
         return output
