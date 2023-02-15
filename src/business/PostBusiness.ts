@@ -5,13 +5,15 @@ import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Post } from "../models/Post"
 import { IdGenerator } from "../services/IdGenerator"
+import { TokenManager } from "../services/TokenManager"
 import { TPostsDB } from "../types"
 
 export class PostBusiness {
     constructor(
         private postsDatabase: PostsDatabase,
         private idGenerator: IdGenerator,
-        private usersDatabase: UsersDatabase
+        private usersDatabase: UsersDatabase,
+        private tokenManager: TokenManager
     ) { }
 
     public getPosts = async (q: string | undefined) => {
@@ -34,15 +36,26 @@ export class PostBusiness {
 
     public createPost = async (input: CreatePostInputDTO) => {
 
-        const { creatorId, content } = input
+        const { content, tokenUser } = input
 
         const id = this.idGenerator.generate()
 
-        // const idExist = await this.usersDatabase.findUserById(creatorId)
+        if(typeof tokenUser !== "string"){
+            throw new BadRequestError("'token' deve ser uma string")
+        }
 
-        // if(!idExist){
-        //     throw new BadRequestError("id não encontrado")
-        // } 
+        if(tokenUser === null){
+            throw new BadRequestError("'token' deve ser informado")
+        }
+
+        const payload = this.tokenManager.getPayload(tokenUser)
+        console.log(payload, "AQUIIIIIIII")
+
+        if(payload === null){
+            throw new BadRequestError("token não é valido")
+        }
+
+        const creatorId = payload.id
 
         let newLikes = 0
         let newDislikes = 0
