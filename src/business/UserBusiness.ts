@@ -3,6 +3,7 @@ import { GetUsersInput, GetUsersOutput, LoginInput, LoginOutput, SignupInput, Si
 import { BadRequestError } from "../errors/BadRequestError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { User } from "../models/User";
+import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager} from "../services/TokenManager";
 import { USER_ROLES, TokenPayload  } from "../types";
@@ -11,7 +12,8 @@ export class UserBusiness {
     constructor(
         private usersDatabase: UsersDatabase,
         private idGenerator: IdGenerator,
-        private tokenManager: TokenManager
+        private tokenManager: TokenManager,
+        private hashManager: HashManager
     ) {}
 
     public getUsers = async (input: GetUsersInput): Promise<GetUsersOutput> => {
@@ -57,12 +59,14 @@ export class UserBusiness {
         }
 
         const id = this.idGenerator.generate()
+        
+        const hashPassword = await this.hashManager.hash(password)
 
         const newUser = new User(
             id,
             name,
             email,
-            password,
+            hashPassword,
             USER_ROLES.NORMAL, // só é possível criar users com contas normais
             new Date().toISOString()
         )
@@ -108,6 +112,12 @@ export class UserBusiness {
             throw new BadRequestError("'email' ou 'password' incorretos")
         }
 
+        const passwordCompare = await this.hashManager.compare(password, userDB.password)
+
+        if(!passwordCompare){
+            throw new BadRequestError("password está incorreto")
+        }
+        
         const tokenPayload: TokenPayload = {
                 id: userDB.id,
                 name: userDB.name,

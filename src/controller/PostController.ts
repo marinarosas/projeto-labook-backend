@@ -33,8 +33,8 @@ export class PostController{
         try {
     
             const input = {
-                creatorId: req.body.creatorId,
-                content: req.body.content
+                content: req.body.content,
+                tokenUser: req.headers.authorization
             }
 
             const output = await this.postBusiness.createPost(input)

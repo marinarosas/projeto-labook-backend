@@ -2,8 +2,8 @@ import { BadRequestError } from "../errors/BadRequestError"
 import { Post } from "../models/Post"
 
 export interface CreatePostInputDTO {
-    creatorId: string,
-    content: string
+    content: string,
+    tokenUser: string | undefined
 }
 
 export interface CreatePostOutputDTO {
@@ -40,18 +40,18 @@ export interface EditPostOutputDTO {
 export class PostDTO {
 
     public createPostInput(
-        creatorId: unknown,
-        content: unknown
+        content: unknown,
+        tokenUser: unknown
     ): CreatePostInputDTO {
 
-        if (typeof creatorId !== "string") throw new BadRequestError("'creatorId' deve ser string")
+        if (typeof tokenUser !== "string") throw new BadRequestError("'token' deve ser string")
 
 
         if (typeof content !== "string") throw new BadRequestError("'content' deve ser string")
 
         const dto: CreatePostInputDTO = {
-            creatorId,
-            content
+            content,
+            tokenUser
         }
 
         return dto
