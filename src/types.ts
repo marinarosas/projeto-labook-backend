@@ -3,7 +3,7 @@ export enum USER_ROLES {
     ADMIN = "ADMIN"
 }
 
-export interface PostsDB {
+export interface PostDB {
     id: string,
     creator_id: string,
     content: string,
@@ -26,7 +26,7 @@ export interface PostModel{
     }
 }
 
-export interface UsersDB {
+export interface UserDB {
     id: string,
     name: string,
     email: string,

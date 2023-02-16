@@ -1,4 +1,4 @@
-import { UsersDB, UserModel, USER_ROLES } from "../types"
+import { UserDB, UserModel, USER_ROLES } from "../types"
 
 export class User {
     constructor (
@@ -54,7 +54,7 @@ export class User {
         this.createdAt = value
     }
 
-    public toDBModel(): UsersDB {
+    public toDBModel(): UserDB {
         return {
             id: this.id,
             name: this.name,
