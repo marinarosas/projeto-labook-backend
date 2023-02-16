@@ -1,5 +1,12 @@
 import { BadRequestError } from "../errors/BadRequestError"
-import { Post } from "../models/Post"
+// import { Post } from "../models/Post"
+import { PostModel } from "../types"
+
+export interface GetPostInputDTO{
+    token: string | undefined
+}
+
+export type GetPostOutputDTO = PostModel[]
 
 export interface CreatePostInputDTO {
     content: string,
@@ -37,6 +44,11 @@ export interface EditPostOutputDTO {
     }
 }
 
+export interface DeletePostInputDTO{
+    idToDelete: string,
+    token: string | undefined
+}
+
 export class PostDTO {
 
     public createPostInput(
@@ -57,26 +69,27 @@ export class PostDTO {
         return dto
     }
 
-    public createPostOutput(post: Post): CreatePostOutputDTO {
-        const dto: CreatePostOutputDTO = {
-            message: "Post criado com sucesso",
-            post: {
-                id: post.getIdPost(),
-                creatorId: post.getCreatorIdPost(),
-                content: post.getContentPost(),
-                newLikes: post.getLikesPost(),
-                newDislikes: post.getDislikesPost(),
-                createdAt: post.getCreatedAtPost(),
-                updatedAt: post.getUpdatedAtPost()
+    // public createPostOutput(post: Post): CreatePostOutputDTO {
+    //     const dto: CreatePostOutputDTO = {
+    //         message: "Post criado com sucesso",
+    //         post: {
+    //             id: post.getIdPost(),
+    //             creatorId: post.getCreatorIdPost(),
+    //             content: post.getContentPost(),
+    //             newLikes: post.getLikesPost(),
+    //             newDislikes: post.getDislikesPost(),
+    //             createdAt: post.getCreatedAtPost(),
+    //             updatedAt: post.getUpdatedAtPost()
 
-            }
-        }
+    //         }
+    //     }
 
-        return dto
-    }
+    //     return dto
+    // }
 
     public editPostInput(
         idToEdit: unknown | undefined,
+        token: string | undefined,
         content: unknown | undefined
     ): EditPostInputDTO {
 
@@ -85,8 +98,11 @@ export class PostDTO {
 
         if (typeof content !== "string") throw new BadRequestError("'title' deve ser string")
 
+        if (typeof token !== "string") throw new BadRequestError("'token' deve ser string")
+
         const dto = {
             idToEdit,
+            token,
             content
         }
 
@@ -94,21 +110,39 @@ export class PostDTO {
 
     }
 
-    public editPostOutput(post: Post): EditPostOutputDTO {
-        const dto: EditPostOutputDTO = {
-            message: "Post editado com sucesso",
-            post: {
-                idToEdit: post.getIdPost(),
-                creatorId: post.getCreatorIdPost(),
-                content: post.getContentPost(),
-                likes: post.getLikesPost(),
-                dislikes: post.getDislikesPost(),
-                createdAt: post.getCreatedAtPost(),
-                updatedAt: post.getUpdatedAtPost()
-            }
+    // public editPostOutput(post: Post): EditPostOutputDTO {
+    //     const dto: EditPostOutputDTO = {
+    //         message: "Post editado com sucesso",
+    //         post: {
+    //             idToEdit: post.getIdPost(),
+    //             creatorId: post.getCreatorIdPost(),
+    //             content: post.getContentPost(),
+    //             likes: post.getLikesPost(),
+    //             dislikes: post.getDislikesPost(),
+    //             createdAt: post.getCreatedAtPost(),
+    //             updatedAt: post.getUpdatedAtPost()
+    //         }
+    //     }
+
+    //     return dto
+        
+    // }
+
+    public deletePostInput(
+        idToDelete: unknown,
+        token: unknown
+    ): DeletePostInputDTO {
+
+        if (typeof token !== "string") throw new BadRequestError("'token' deve ser string")
+
+
+        if (typeof idToDelete !== "string") throw new BadRequestError("'id' deve ser string")
+
+        const dto: DeletePostInputDTO = {
+            idToDelete,
+            token
         }
 
         return dto
-        
     }
 }

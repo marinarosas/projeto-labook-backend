@@ -17,5 +17,5 @@ app.listen(Number(process.env.PORT), () => {
     console.log(`Servidor rodando na porta ${Number(process.env.PORT)}`)
 })
 
-app.use("/posts", postRouter)
 app.use("/users", userRouter)
+app.use("/posts", postRouter)

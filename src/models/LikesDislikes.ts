@@ -5,27 +5,27 @@ export class LikesDislikes{
         private like: number
     ){}
 
-    getUserIdLD(): string{
+    getUserId(): string{
         return this.user_id
     }
 
-    setUserIdLD(value: string): void{
+    setUserId(value: string): void{
         this.user_id = value
     }
 
-    getPostIdLD(): string{
+    getPostId(): string{
         return this.post_id
     }
 
-    setPostIdLD(value: string): void{
+    setPostId(value: string): void{
         this.post_id = value
     }
 
-    getLikeLD(): number{
+    getLike(): number{
         return this.like
     }
 
-    setLikeLD(value:number): void{
+    setLike(value:number): void{
         this.like = value
     }
 }

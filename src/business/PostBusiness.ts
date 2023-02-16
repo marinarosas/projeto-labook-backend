@@ -6,7 +6,7 @@ import { NotFoundError } from "../errors/NotFoundError"
 import { Post } from "../models/Post"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
-import { TPostsDB } from "../types"
+import { PostsDB } from "../types"
 
 export class PostBusiness {
     constructor(
@@ -19,7 +19,7 @@ export class PostBusiness {
     public getPosts = async (q: string | undefined) => {
 
         const postsDatabase = new PostsDatabase()
-        const postsDB: TPostsDB[] = await postsDatabase.findPosts(q)
+        const postsDB: PostsDB[] = await postsDatabase.findPosts(q)
 
         const posts: Post[] = postsDB.map((postDB) => new Post(
             postDB.id,
@@ -72,22 +72,14 @@ export class PostBusiness {
         )
 
         //2 - Objeto simples para MODELAR as informações para o banco de dados
-        const newPostDB: TPostsDB = {
-            id: newPost.getIdPost(),
-            creator_id: newPost.getCreatorIdPost(),
-            content: newPost.getContentPost(),
-            likes: newPost.getLikesPost(),
-            dislikes: newPost.getDislikesPost(),
-            created_at: newPost.getCreatedAtPost(),
-            updated_at: newPost.getUpdatedAtPost()
-        }
+        const newPostDB = newPost.toDBModel()
 
         await this.postsDatabase.insertPost(newPostDB)
 
         const postDTO = new PostDTO()
         const output = postDTO.createPostOutput(newPost)
 
-        return output
+        return output.toBusinessModel()
     }
 
     public editPost = async (input: EditPostInputDTO) => {
@@ -104,23 +96,25 @@ export class PostBusiness {
         if (postsDB) {
             const newPost = new Post(
                 idToEdit,
-                postsDB.creator_id,
                 content,
                 postsDB.likes,
                 postsDB.dislikes,
                 postsDB.created_at,
-                new Date().toISOString()
+                new Date().toISOString(),
+                postsDB.creator_id,
+                postsDB.
             )
 
-            const newPostDB: TPostsDB = {
-                id: newPost.getIdPost(),
-                creator_id: newPost.getCreatorIdPost(),
-                content: newPost.getContentPost(),
-                likes: newPost.getLikesPost(),
-                dislikes: newPost.getDislikesPost(),
-                created_at: newPost.getCreatedAtPost(),
-                updated_at: newPost.getUpdatedAtPost()
-            }
+            private id: string,
+            private content: string,
+            private likes: number,
+            private dislikes: number,
+            private createdAt: string,
+            private updatedAt: string,
+            private creatorId: string,
+            private creatorName: string
+
+            const newPostDB = newPost.toDBModel()
 
             newPost.setContentPost(newPostDB.content)
 
@@ -129,7 +123,7 @@ export class PostBusiness {
             const postDTO = new PostDTO()
             const output = postDTO.editPostOutput(newPost)
 
-            return output
+            return output.toBusinessModel()
         }
 
     }

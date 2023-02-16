@@ -3,7 +3,7 @@ export enum USER_ROLES {
     ADMIN = "ADMIN"
 }
 
-export interface TPostsDB {
+export interface PostsDB {
     id: string,
     creator_id: string,
     content: string,
@@ -13,23 +13,20 @@ export interface TPostsDB {
     updated_at: string
 }
 
-export interface TGetPost {
+export interface PostModel{
     id: string,
-    creator_id: string,
     content: string,
     likes: number,
     dislikes: number,
-    created_at: string,
-    updated_at: string,
-    creator: TCreator
+    createdAt: string,
+    updatedAt: string,
+    creator:{
+        creatorId: string,
+        creatorName: string
+    }
 }
 
-export interface TCreator {
-    id: string,
-    name: string
-}
-
-export interface TUsersDB {
+export interface UsersDB {
     id: string,
     name: string,
     email: string,

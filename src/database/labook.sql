@@ -11,6 +11,8 @@ CREATE TABLE users(
 
 SELECT * FROM users;
 
+DROP TABLE users;
+
 INSERT INTO users (id, name, email, password, role)
 VALUES
     ("u001", "Marina", "marina@email.com", "M@arina123", "Administrador"),
@@ -23,10 +25,15 @@ CREATE TABLE posts(
     likes INTEGER DEFAULT(0) NOT NULL,
     dislikes INTEGER DEFAULT(0) NOT NULL,
     created_at TEXT DEFAULT(DATETIME()) NOT NULL,
-    updated_at TEXT DEFAULT(DATETIME()) NOT NULL
+    updated_at TEXT DEFAULT(DATETIME()) NOT NULL,
+    FOREIGN KEY (creator_id) REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 SELECT * FROM posts;
+
+DROP TABLE posts;
 
 INSERT INTO posts (id, creator_id, content)
 VALUES
@@ -38,14 +45,21 @@ CREATE TABLE likes_dislikes(
     user_id TEXT NOT NULL,
     post_id TEXT NOT NULL,
     like INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (post_id) REFERENCES posts(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
 
 SELECT * FROM likes_dislikes;
+
+DROP TABLE likes_dislikes;
 
 INSERT INTO likes_dislikes (user_id, post_id, like)
 VALUES
     ("u001", "p001", 397),
     ("u001", "p002", 269),
     ("u002", "p003", 35);
+

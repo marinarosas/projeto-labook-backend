@@ -1,4 +1,4 @@
-import { TPostsDB } from "../types";
+import { PostsDB } from "../types";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class PostsDatabase extends BaseDatabase{
@@ -21,19 +21,19 @@ export class PostsDatabase extends BaseDatabase{
         return postsDB
     }
 
-    public async findPostById(id: string | undefined): Promise <TPostsDB | undefined>{
-        const [postDBExist]: TPostsDB[] | undefined[] = await BaseDatabase
+    public async findPostById(id: string | undefined): Promise <PostsDB | undefined>{
+        const [postDBExist]: PostsDB[] | undefined[] = await BaseDatabase
         .connection(PostsDatabase.TABLE_POSTS)
         .where({id: id})
         return postDBExist
     }
 
-    public async insertPost(newPostDB: TPostsDB): Promise <void>{
+    public async insertPost(newPostDB: PostsDB): Promise <void>{
         await BaseDatabase.connection(PostsDatabase.TABLE_POSTS).insert(newPostDB)
 
     }
 
-    public async updatePostById(newPostDB: TPostsDB): Promise <void>{
+    public async updatePostById(newPostDB: PostsDB): Promise <void>{
         await BaseDatabase
         .connection(PostsDatabase.TABLE_POSTS)
         .update(newPostDB)

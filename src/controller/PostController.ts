@@ -42,8 +42,7 @@ export class PostController{
             res.status(201).send(output)
 
         } catch (error) {
-            console.log(error)
-    
+           
             if (error instanceof BaseError) {
                 res.status(error.statusCode).send(error.message)
             } else {

@@ -1,29 +1,26 @@
-import { UserModel } from "../types"
+// import { UserModel } from "../types"
 
-export interface GetUsersInput {
-    q: unknown
-}
+// export interface GetUsersInputDTO {
+//     q: unknown
+// }
 
-export type GetUsersOutput = UserModel[]
+// export type GetUsersOutput = UserModel[]
 
-export interface SignupInput {
-    // id: unknown,
+export interface SignupInputDTO {
     name: unknown,
     email: unknown,
     password: unknown
 }
 
-export interface SignupOutput {
-    message: string,
+export interface SignupOutputDTO {
     token: string
 }
 
-export interface LoginInput {
+export interface LoginInputDTO {
     email: unknown,
     password: unknown
 }
 
-export interface LoginOutput {
-    message: string,
+export interface LoginOutputDTO {
     token: string
 }
