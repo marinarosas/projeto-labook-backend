@@ -1,4 +1,4 @@
-import { TUsersDB } from "../types";
+import { UserDB } from "../types";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class UsersDatabase extends BaseDatabase{
@@ -21,26 +21,28 @@ export class UsersDatabase extends BaseDatabase{
         return usersDB
     }
 
-    public async findUserById(id: string | undefined): Promise <TUsersDB | undefined>{
-        const [userDBExist]: TUsersDB[] | undefined[] = await BaseDatabase
+    public async findUserById(id: string | undefined): Promise <UserDB | undefined>{
+        const userDBExist: UserDB[] | undefined[] = await BaseDatabase
         .connection(UsersDatabase.TABLE_USERS)
+        .select()
         .where({id: id})
-        return userDBExist
+        return userDBExist[0]
     }
 
-    public async findUserByEmail(email: string | undefined): Promise <TUsersDB | undefined>{
-        const [emailUserDBExist]: TUsersDB[] | undefined[] = await BaseDatabase
+    public async findUserByEmail(email: string | undefined): Promise <UserDB | undefined>{
+        const emailUserDBExist: UserDB[] | undefined[] = await BaseDatabase
         .connection (UsersDatabase.TABLE_USERS)
-        .where({email: email})
-        return emailUserDBExist
+        .select()
+        .where({email})
+        return emailUserDBExist[0]
     }
 
-    public async insertUser(newUserDB: TUsersDB): Promise <void>{
+    public async insertUser(newUserDB: UserDB): Promise <void>{
         await BaseDatabase.connection(UsersDatabase.TABLE_USERS).insert(newUserDB)
 
     }
 
-    public async updateUserById(newUserDB: TUsersDB): Promise <void>{
+    public async updateUserById(newUserDB: UserDB): Promise <void>{
         await BaseDatabase
         .connection(UsersDatabase.TABLE_USERS)
         .update(newUserDB)
@@ -60,14 +62,14 @@ export class UsersDatabase extends BaseDatabase{
         .where({id})    
     }
 
-    public async checkUser (email: string, password: string){
-        if(email){
-          const userDB: TUsersDB[] =  await BaseDatabase
-        .connection(UsersDatabase.TABLE_USERS)
-        .where({email: email, password: password})
+    // public async checkUser (email: string, password: string){
+    //     if(email){
+    //       const userDB: UserDB[] =  await BaseDatabase
+    //     .connection(UsersDatabase.TABLE_USERS)
+    //     .where({email: email, password: password})
 
-        return userDB
+    //     return userDB
 
-        }
-    }
+    //     }
+    // }
 }

@@ -1,63 +1,93 @@
+import { PostModel, PostDB } from "../types"
+
 export class Post{
     constructor(
         private id: string,
-        private creator_id: string,
         private content: string,
         private likes: number,
-        private dislakes: number,
-        private created_at: string,
-        private updated_at: string
+        private dislikes: number,
+        private createdAt: string,
+        private updatedAt: string,
+        private creatorId: string,
+        private creatorName: string
     ){}
 
-    getIdPost(): string{
+    getId(): string{
         return this.id
     }
 
-    getCreatorIdPost(): string{
-        return this.creator_id
+    getCreatorId(): string{
+        return this.creatorId
     }
 
-    setCreatorIdPost(value: string): void{
-        this.creator_id = value
+    setCreatorId(value: string): void{
+        this.creatorId = value
     }
 
-    getContentPost(): string{
+    getContent(): string{
         return this.content
     }
 
-    setContentPost(value: string): void{
+    setContent(value: string): void{
         this.content = value
     }
 
-    getLikesPost(): number{
+    getLikes(): number{
         return this.likes
     }
 
-    setLikesPost(value: number): void{
+    setLikes(value: number): void{
         this.likes = value
     }
 
-    getDislikesPost(): number{
-        return this.dislakes
+    getDislikes(): number{
+        return this.dislikes
     }
 
-    setDislikesPost(value: number): void{
-        this.dislakes = value
+    setDislikes(value: number): void{
+        this.dislikes = value
     }
 
-    getCreatedAtPost(): string{
-        return this.created_at
+    getCreatedAt(): string{
+        return this.createdAt
     }
 
-    setCreatedAtPost(value: string){
-        this.created_at = value
+    setCreatedAt(value: string){
+        this.createdAt = value
     }
 
-    getUpdatedAtPost(): string{
-        return this.updated_at
+    getUpdatedAt(): string{
+        return this.updatedAt
     }
 
-    setUpdatedAtPost(value: string): void{
-        this.updated_at = value
+    setUpdatedAt(value: string): void{
+        this.updatedAt = value
+    }
+
+    public toDBModel(): PostDB{
+        return{
+            id: this.id,
+            creator_id: this.creatorId,
+            content: this.content,
+            likes: this.likes,
+            dislikes: this.dislikes,
+            created_at: this.createdAt,
+            updated_at: this.updatedAt
+        }
+    }
+
+    public toBusinessModel(): PostModel{
+        return{
+            id: this.id,
+            content: this.content,
+            likes: this.likes,
+            dislikes: this.dislikes,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            creator: {
+                creatorId: this.creatorId,
+                creatorName: this.creatorName
+            }
+        }
     }
 }
