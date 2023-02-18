@@ -55,52 +55,53 @@ export class PostBusiness {
         return output
     }
 
-    public createPost = async (input: CreatePostInputDTO) => {
+    public createPost = async (input: CreatePostInputDTO): Promise <void> => {
 
-        // const { content, tokenUser } = input
+        const { content, tokenUser } = input
 
-        // const id = this.idGenerator.generate()
+        if (tokenUser === undefined) {
+            throw new BadRequestError("'token' ausente")
+        }
 
-        // if(typeof tokenUser !== "string"){
-        //     throw new BadRequestError("'token' deve ser uma string")
+        if(typeof tokenUser !== "string"){
+            throw new BadRequestError("'token' deve ser uma string")
+        }
+
+        if(tokenUser === null){
+            throw new BadRequestError("'token' deve ser informado")
+        }
+
+        const payload = this.tokenManager.getPayload(tokenUser)
+
+        if(payload === null){
+            throw new BadRequestError("token não é valido")
+        }
+
+        // if(content !== "string"){
+        //     throw new BadRequestError("'content' deve ser uma string")
         // }
 
-        // if(tokenUser === null){
-        //     throw new BadRequestError("'token' deve ser informado")
-        // }
+        const id = this.idGenerator.generate()
 
-        // const payload = this.tokenManager.getPayload(tokenUser)
-        // console.log(payload, "AQUIIIIIIII")
+        const creatorId = payload.id
+        const creatorName = payload.name
+        let newLikes = 0
+        let newDislikes = 0
 
-        // if(payload === null){
-        //     throw new BadRequestError("token não é valido")
-        // }
+        const newPost = new Post(
+            id,
+            content,
+            newLikes,
+            newDislikes,
+            new Date().toISOString(),
+            new Date().toISOString(),
+            creatorId,
+            creatorName
+        )
 
-        // const creatorId = payload.id
+        const newPostDB = newPost.toDBModel()
 
-        // let newLikes = 0
-        // let newDislikes = 0
-
-        //1 - INSTANCIAR os dodos vindos do body
-        // const newPost = new Post(
-        //     id,
-        //     creatorId,
-        //     content,
-        //     newLikes,
-        //     newDislikes,
-        //     new Date().toISOString(),
-        //     new Date().toISOString()
-        // )
-
-        // //2 - Objeto simples para MODELAR as informações para o banco de dados
-        // const newPostDB = newPost.toDBModel()
-
-        // await this.postsDatabase.insertPost(newPostDB)
-
-        // const postDTO = new PostDTO()
-        // const output = postDTO.createPostOutput(newPost)
-
-        // return output.toBusinessModel()
+        await this.postsDatabase.insertPost(newPostDB)
     }
 
     public editPost = async (input: EditPostInputDTO) => {
