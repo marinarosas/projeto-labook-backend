@@ -55,7 +55,7 @@ export class PostBusiness {
         return output
     }
 
-    public createPost = async (input: CreatePostInputDTO): Promise <void> => {
+    public createPost = async (input: CreatePostInputDTO): Promise<void> => {
 
         const { content, tokenUser } = input
 
@@ -63,17 +63,17 @@ export class PostBusiness {
             throw new BadRequestError("'token' ausente")
         }
 
-        if(typeof tokenUser !== "string"){
+        if (typeof tokenUser !== "string") {
             throw new BadRequestError("'token' deve ser uma string")
         }
 
-        if(tokenUser === null){
+        if (tokenUser === null) {
             throw new BadRequestError("'token' deve ser informado")
         }
 
         const payload = this.tokenManager.getPayload(tokenUser)
 
-        if(payload === null){
+        if (payload === null) {
             throw new BadRequestError("token não é valido")
         }
 
@@ -104,41 +104,59 @@ export class PostBusiness {
         await this.postsDatabase.insertPost(newPostDB)
     }
 
-    public editPost = async (input: EditPostInputDTO) => {
+    public editPost = async (input: EditPostInputDTO): Promise<void> => {
 
-        const { idToEdit, content } = input
+        const { idToEdit, content, token } = input
+
+        if (token === undefined) {
+            throw new BadRequestError("'token' ausente")
+        }
+
+        if (typeof token !== "string") {
+            throw new BadRequestError("'token' deve ser uma string")
+        }
+
+        if (token === null) {
+            throw new BadRequestError("'token' deve ser informado")
+        }
 
         const postDB = await this.postsDatabase.findPostById(idToEdit)
 
         if (!postDB) {
-
             throw new NotFoundError("'id' não encontrado")
         }
 
-        // if (postDB) {
-        //     const newPost = new Post(
-        //         idToEdit,
-        //         content,
-        //         postDB.likes,
-        //         postDB.dislikes,
-        //         postDB.created_at,
-        //         new Date().toISOString(),
-        //         postDB.creator_id,
-        //         postDB.
-        //     )
+        const payload = this.tokenManager.getPayload(token)
 
-        //     const newPostDB = newPost.toDBModel()
+        if (payload === null) {
+            throw new BadRequestError("token não é valido")
+        }
 
-        //     newPost.setContentPost(newPostDB.content)
+        const creatorId = payload.id
 
-        //     await this.postsDatabase.updatePostById(newPostDB)
+        if (postDB.creator_id !== payload.id) {
+            throw new BadRequestError("somente quem criou o post pode editá-la")
+        }
 
-        //     const postDTO = new PostDTO()
-        //     const output = postDTO.editPostOutput(newPost)
+        const creatorName = payload.name
 
-        //     return output.toBusinessModel()
-        // }
+        const newPost = new Post(
+            postDB.id,
+            postDB.content,
+            postDB.likes,
+            postDB.dislikes,
+            postDB.created_at,
+            postDB.updated_at,
+            creatorId,
+            creatorName
+        )
 
+        newPost.setContent(content)
+        newPost.setUpdatedAt(new Date().toISOString())
+
+        const newPostDB = newPost.toDBModel()
+
+        await this.postsDatabase.updatePostById(idToEdit, newPostDB)
     }
 
     public deletePost = async (id: string) => {

@@ -22,10 +22,11 @@ export class PostsDatabase extends BaseDatabase {
     }
 
     public async findPostById(id: string | undefined): Promise<PostDB | undefined> {
-        const [postDBExist]: PostDB[] | undefined[] = await BaseDatabase
+        const postDBExist: PostDB[] | undefined[] = await BaseDatabase
             .connection(PostsDatabase.TABLE_POSTS)
+            .select()
             .where({ id: id })
-        return postDBExist
+        return postDBExist[0]
     }
 
     public async insertPost(newPostDB: PostDB): Promise<void> {
@@ -33,11 +34,11 @@ export class PostsDatabase extends BaseDatabase {
 
     }
 
-    public async updatePostById(newPostDB: PostDB): Promise<void> {
+    public async updatePostById(id: string, newPostDB: PostDB): Promise<void> {
         await BaseDatabase
             .connection(PostsDatabase.TABLE_POSTS)
             .update(newPostDB)
-            .where({ id: newPostDB.id })
+            .where({id})
     }
 
     public async deletePost(id: string) {

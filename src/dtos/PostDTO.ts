@@ -28,7 +28,8 @@ export interface CreatePostOutputDTO {
 
 export interface EditPostInputDTO {
     idToEdit: string,
-    content: string
+    content: string,
+    token: string | undefined
 }
 
 export interface EditPostOutputDTO {

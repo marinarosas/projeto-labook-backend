@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { PostBusiness } from "../business/PostBusiness"
-import { GetPostInputDTO } from "../dtos/PostDTO"
+import { EditPostInputDTO, GetPostInputDTO } from "../dtos/PostDTO"
 import { BaseError } from "../errors/BaseError"
 // import { PostsDatabase } from "../database/PostsDataBase"
 // import { Post } from "../models/Post"
@@ -57,14 +57,15 @@ export class PostController {
     public editPost = async (req: Request, res: Response) => {
         try {
 
-            const input = {
+            const input: EditPostInputDTO = {
                 idToEdit: req.params.id,
-                content: req.body.content
+                content: req.body.content,
+                token: req.headers.authorization
             }
 
-            const output = await this.postBusiness.editPost(input)
+            await this.postBusiness.editPost(input)
 
-            res.status(201).send(output)
+            res.status(200).end()
 
         } catch (error) {
             console.log(error)
