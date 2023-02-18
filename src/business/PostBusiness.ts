@@ -1,12 +1,12 @@
 import { PostsDatabase } from "../database/PostsDataBase"
 import { UsersDatabase } from "../database/UsersDatabase"
-import { CreatePostInputDTO, EditPostInputDTO, PostDTO } from "../dtos/PostDTO"
+import { CreatePostInputDTO, EditPostInputDTO, GetPostInputDTO, GetPostOutputDTO, PostDTO } from "../dtos/PostDTO"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Post } from "../models/Post"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
-import { PostDB } from "../types"
+import { PostDB, PostWithCreatorDB } from "../types"
 
 export class PostBusiness {
     constructor(
@@ -16,22 +16,43 @@ export class PostBusiness {
         private tokenManager: TokenManager
     ) { }
 
-    public getPosts = async (q: string | undefined) => {
+    public getPosts = async (input: GetPostInputDTO): Promise<GetPostOutputDTO> => {
 
-        const postsDatabase = new PostsDatabase()
-        const postDB: PostDB[] = await postsDatabase.findPosts(q)
+        const { token } = input
 
-        // const posts: Post[] = postDB.map((postDB) => new Post(
-        //     postDB.id,
-        //     postDB.creator_id,
-        //     postDB.content,
-        //     postDB.likes,
-        //     postDB.dislikes,
-        //     postDB.created_at,
-        //     postDB.updated_at
-        // ))
+        if (token === undefined) {
+            throw new BadRequestError("'token' ausente")
+        }
 
-        // return posts
+        const payload = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("'token'inválido")
+        }
+
+        const postsWithCreatorDB: PostWithCreatorDB[] = await this.postsDatabase.getPostWithCreator()
+
+
+        const posts = postsWithCreatorDB.map((postWithCreatorDB) => {
+            const post = new Post(
+                postWithCreatorDB.id,
+                postWithCreatorDB.content,
+                postWithCreatorDB.likes,
+                postWithCreatorDB.dislikes,
+                postWithCreatorDB.created_at,
+                postWithCreatorDB.updated_at,
+                postWithCreatorDB.creator_id,
+                postWithCreatorDB.creator_name
+
+            )
+
+            return post.toBusinessModel()
+
+        }
+        )
+
+        const output: GetPostOutputDTO = posts
+        return output
     }
 
     public createPost = async (input: CreatePostInputDTO) => {
@@ -127,7 +148,7 @@ export class PostBusiness {
 
             throw new NotFoundError("Id não encontrado")
         }
-        
+
         await this.postsDatabase.deletePost(id)
 
         return ({
