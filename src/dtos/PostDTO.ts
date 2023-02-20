@@ -70,24 +70,6 @@ export class PostDTO {
         return dto
     }
 
-    // public createPostOutput(post: Post): CreatePostOutputDTO {
-    //     const dto: CreatePostOutputDTO = {
-    //         message: "Post criado com sucesso",
-    //         post: {
-    //             id: post.getIdPost(),
-    //             creatorId: post.getCreatorIdPost(),
-    //             content: post.getContentPost(),
-    //             newLikes: post.getLikesPost(),
-    //             newDislikes: post.getDislikesPost(),
-    //             createdAt: post.getCreatedAtPost(),
-    //             updatedAt: post.getUpdatedAtPost()
-
-    //         }
-    //     }
-
-    //     return dto
-    // }
-
     public editPostInput(
         idToEdit: unknown | undefined,
         token: string | undefined,
@@ -110,24 +92,6 @@ export class PostDTO {
         return dto
 
     }
-
-    // public editPostOutput(post: Post): EditPostOutputDTO {
-    //     const dto: EditPostOutputDTO = {
-    //         message: "Post editado com sucesso",
-    //         post: {
-    //             idToEdit: post.getIdPost(),
-    //             creatorId: post.getCreatorIdPost(),
-    //             content: post.getContentPost(),
-    //             likes: post.getLikesPost(),
-    //             dislikes: post.getDislikesPost(),
-    //             createdAt: post.getCreatedAtPost(),
-    //             updatedAt: post.getUpdatedAtPost()
-    //         }
-    //     }
-
-    //     return dto
-        
-    // }
 
     public deletePostInput(
         idToDelete: unknown,

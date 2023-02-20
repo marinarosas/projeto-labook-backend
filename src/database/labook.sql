@@ -77,10 +77,10 @@ JOIN users
 ON posts.creator_id = users.id;
 
 UPDATE users
-SET password = "$2a$12$qrB8UNsGn9ELwp4lVa4OeO5Ef3QROgRiM8Nz9Rh6.jVD9FNW9ZUem"
+SET password = "$2a$12$iSd0f004.jVFVrAjslARD.myipBt.4b0Sbf/8VTvZAqIYiq6GbDju"
 WHERE id = "u001";
 
 UPDATE users
-SET password = "$2a$12$kChr1652CqGdgK27uREu9utOe6Oby83q/oR0fy5ljmP1nSNyGvURy"
+SET password = "$2a$12$ZLXrqt.6dqrzRnpba.u8zu.S97F0V8TLVLYeU1jaBIRFNr2jCdVLu"
 WHERE id = "u002";
 

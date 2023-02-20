@@ -10,47 +10,47 @@ export class User {
         private createdAt: string
     ) {}
 
-    getId(): string {
+    public getId(): string {
         return this.id
     }
 
-    getName(): string{
+    public getName(): string{
         return this.name
     }
 
-    setName(value: string): void{
+    public setName(value: string): void{
         this.name = value
     }
 
-    getEmail(): string{
+    public getEmail(): string{
         return this.email
     }
 
-    setEmail(value: string): void{
+    public setEmail(value: string): void{
         this.email = value
     }
 
-    getPassword(): string{
+    public getPassword(): string{
         return this.password
     }
 
-    setPassword(value: string): void{
+    public setPassword(value: string): void{
         this.password = value
     }
 
-    getRole(): USER_ROLES{
+    public getRole(): USER_ROLES{
         return this.role
     }
 
-    setRole(value: USER_ROLES): void{
+    public setRole(value: USER_ROLES): void{
         this.role = value
     }
 
-    getCreatedAt(): string {
+    public getCreatedAt(): string {
         return this.createdAt
     }
 
-    setCreatedAt(value: string){
+    public setCreatedAt(value: string){
         this.createdAt = value
     }
 

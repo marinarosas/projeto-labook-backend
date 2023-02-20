@@ -1,12 +1,13 @@
 import { PostsDatabase } from "../database/PostsDataBase"
 import { UsersDatabase } from "../database/UsersDatabase"
+import { LikesDislikesInputDTO } from "../dtos/LikesDislikesDTO"
 import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostInputDTO, GetPostOutputDTO, PostDTO } from "../dtos/PostDTO"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Post } from "../models/Post"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
-import { PostDB, PostWithCreatorDB, USER_ROLES } from "../types"
+import { LikeDislikeDB, PostDB, PostWithCreatorDB, POST_LIKE, USER_ROLES } from "../types"
 
 export class PostBusiness {
     constructor(
@@ -159,9 +160,9 @@ export class PostBusiness {
         await this.postsDatabase.updatePostById(idToEdit, newPostDB)
     }
 
-    public deletePost = async (input: DeletePostInputDTO): Promise <void> => {
+    public deletePost = async (input: DeletePostInputDTO): Promise<void> => {
 
-        const {idToDelete, token} = input
+        const { idToDelete, token } = input
 
         if (token === undefined) {
             throw new BadRequestError("'token' ausente")
@@ -198,6 +199,95 @@ export class PostBusiness {
 
         await this.postsDatabase.deletePostById(idToDelete)
 
+    }
+
+    public likeOrDislikePost = async (input: LikesDislikesInputDTO): Promise<void> => {
+
+        const { idToLikeDislike, token, like } = input
+
+        if (token === undefined) {
+            throw new BadRequestError("'token' ausente")
+        }
+
+        if (typeof token !== "string") {
+            throw new BadRequestError("'token' deve ser uma string")
+        }
+
+        if (token === null) {
+            throw new BadRequestError("'token' deve ser informado")
+        }
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("token não é valido")
+        }
+
+        if (typeof like !== "boolean") {
+            throw new BadRequestError("'like' deve ser um booleano")
+        }
+
+        const postWithCreatorDB = await this.postsDatabase.findPostWithCreatorById(idToLikeDislike)
+
+
+        if (!postWithCreatorDB) {
+            throw new NotFoundError("Id não encontrado")
+        }
+
+        const userId = payload.id
+        const likeSQLite = like ? 1 : 0
+
+        const likeDislikeDB: LikeDislikeDB = {
+            user_id: userId,
+            post_id: postWithCreatorDB.id,
+            like: likeSQLite
+        }
+
+        const post = new Post(
+            postWithCreatorDB.id,
+            postWithCreatorDB.content,
+            postWithCreatorDB.likes,
+            postWithCreatorDB.dislikes,
+            postWithCreatorDB.created_at,
+            postWithCreatorDB.updated_at,
+            postWithCreatorDB.id,
+            postWithCreatorDB.creator_name
+        )
+
+        const likeDislikeExist = await this.postsDatabase
+            .findLikeDislike(likeDislikeDB)
+
+        if (likeDislikeExist === POST_LIKE.ALREADY_LIKED) {
+            if (like) {
+                await this.postsDatabase.removeLikeDislike(likeDislikeDB)
+                post.removeLike()
+            } else {
+                await this.postsDatabase.updateLikeDislike(likeDislikeDB)
+                post.removeLike()
+                post.addDislike()
+            }
+        } else if (likeDislikeExist === POST_LIKE.ALREADY_DISLIKED) {
+            if (like) {
+                await this.postsDatabase.updateLikeDislike(likeDislikeDB)
+                post.removeDislike()
+                post.addLike()
+            } else {
+                await this.postsDatabase.removeLikeDislike(likeDislikeDB)
+                post.removeDislike()
+            }
+        } else {
+
+            await this.postsDatabase.likeOrDislikePost(likeDislikeDB)
+
+            like ? post.addLike() : post.addDislike()
+
+        }
+
+        const updatePostDB = post.toDBModel()
+
+        console.log(updatePostDB, "AQUIIIIII")
+
+        await this.postsDatabase.updatePostById(idToLikeDislike, updatePostDB)
     }
 
 }
