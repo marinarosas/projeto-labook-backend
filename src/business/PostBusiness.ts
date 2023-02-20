@@ -1,12 +1,12 @@
 import { PostsDatabase } from "../database/PostsDataBase"
 import { UsersDatabase } from "../database/UsersDatabase"
-import { CreatePostInputDTO, EditPostInputDTO, GetPostInputDTO, GetPostOutputDTO, PostDTO } from "../dtos/PostDTO"
+import { CreatePostInputDTO, DeletePostInputDTO, EditPostInputDTO, GetPostInputDTO, GetPostOutputDTO, PostDTO } from "../dtos/PostDTO"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
 import { Post } from "../models/Post"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
-import { PostDB, PostWithCreatorDB } from "../types"
+import { PostDB, PostWithCreatorDB, USER_ROLES } from "../types"
 
 export class PostBusiness {
     constructor(
@@ -134,7 +134,7 @@ export class PostBusiness {
 
         const creatorId = payload.id
 
-        if (postDB.creator_id !== payload.id) {
+        if (postDB.creator_id !== creatorId) {
             throw new BadRequestError("somente quem criou o post pode editá-la")
         }
 
@@ -159,20 +159,44 @@ export class PostBusiness {
         await this.postsDatabase.updatePostById(idToEdit, newPostDB)
     }
 
-    public deletePost = async (id: string) => {
+    public deletePost = async (input: DeletePostInputDTO): Promise <void> => {
 
-        const postExist = await this.postsDatabase.findPostById(id)
+        const {idToDelete, token} = input
 
-        if (!postExist) {
+        if (token === undefined) {
+            throw new BadRequestError("'token' ausente")
+        }
+
+        if (typeof token !== "string") {
+            throw new BadRequestError("'token' deve ser uma string")
+        }
+
+        if (token === null) {
+            throw new BadRequestError("'token' deve ser informado")
+        }
+
+        const payload = this.tokenManager.getPayload(token)
+
+        if (payload === null) {
+            throw new BadRequestError("token não é valido")
+        }
+
+        const postDB = await this.postsDatabase.findPostById(idToDelete)
+
+        if (!postDB) {
 
             throw new NotFoundError("Id não encontrado")
         }
 
-        await this.postsDatabase.deletePost(id)
+        const creatorId = payload.id
 
-        return ({
-            message: "Post deletado com sucesso"
-        })
+        if (
+            payload.role !== USER_ROLES.ADMIN &&
+            postDB.creator_id !== creatorId) {
+            throw new BadRequestError("somente quem criou o post pode deletá-la")
+        }
+
+        await this.postsDatabase.deletePostById(idToDelete)
 
     }
 

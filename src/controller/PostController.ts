@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
 import { PostBusiness } from "../business/PostBusiness"
-import { EditPostInputDTO, GetPostInputDTO } from "../dtos/PostDTO"
+import { DeletePostInputDTO, EditPostInputDTO, GetPostInputDTO } from "../dtos/PostDTO"
 import { BaseError } from "../errors/BaseError"
 // import { PostsDatabase } from "../database/PostsDataBase"
 // import { Post } from "../models/Post"
@@ -79,11 +79,14 @@ export class PostController {
 
     public deletePost = async (req: Request, res: Response) => {
         try {
-            const id = req.params.id
+            const input: DeletePostInputDTO = {
+                idToDelete: req.params.id,
+                token: req.headers.authorization
+            }
 
-            const output = await this.postBusiness.deletePost(id)
-            console.log(output, "AQUIIIII OUTPUT")
-            res.status(200).send(output)
+            await this.postBusiness.deletePost(input)
+
+            res.status(200).end()
 
         } catch (error) {
             console.log(error)

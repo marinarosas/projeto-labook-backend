@@ -15,8 +15,8 @@ DROP TABLE users;
 
 INSERT INTO users (id, name, email, password, role)
 VALUES
-    ("u001", "Marina", "marina@email.com", "M@arina123", "Administrador"),
-    ("u002", "Alex", "alex@email.com", "@Lex123", "Usuário");
+    ("u001", "Marina", "marina@email.com", "M@rina123", "ADMIN"),
+    ("u002", "Alex", "alex@email.com", "@Lex1234", "ADMIN");
 
 CREATE TABLE posts(
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
@@ -75,3 +75,12 @@ SELECT
 FROM posts
 JOIN users
 ON posts.creator_id = users.id;
+
+UPDATE users
+SET password = "$2a$12$qrB8UNsGn9ELwp4lVa4OeO5Ef3QROgRiM8Nz9Rh6.jVD9FNW9ZUem"
+WHERE id = "u001";
+
+UPDATE users
+SET password = "$2a$12$kChr1652CqGdgK27uREu9utOe6Oby83q/oR0fy5ljmP1nSNyGvURy"
+WHERE id = "u002";
+
