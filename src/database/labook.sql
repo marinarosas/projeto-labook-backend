@@ -16,7 +16,7 @@ DROP TABLE users;
 INSERT INTO users (id, name, email, password, role)
 VALUES
     ("u001", "Marina", "marina@email.com", "M@rina123", "ADMIN"),
-    ("u002", "Alex", "alex@email.com", "@Lex1234", "ADMIN");
+    ("u002", "Alex", "alex@email.com", "@Lex1234", "NORMAL");
 
 CREATE TABLE posts(
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
