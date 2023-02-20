@@ -250,7 +250,7 @@ export class PostBusiness {
             postWithCreatorDB.dislikes,
             postWithCreatorDB.created_at,
             postWithCreatorDB.updated_at,
-            postWithCreatorDB.id,
+            postWithCreatorDB.creator_id,
             postWithCreatorDB.creator_name
         )
 
