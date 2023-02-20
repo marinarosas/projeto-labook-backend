@@ -58,9 +58,9 @@ Endpoint público utilizado para cadastro. Devolve um token jwt.
 // request POST /users/signup
 // body JSON
 {
-  "name": "Beltrana",
-  "email": "beltrana@email.com",
-  "password": "beltrana00"
+   "name": "Andrea", 
+   "email": "andrea@email.com", 
+   "password": "Andre@123"
 }
 
 // response
@@ -76,8 +76,8 @@ Endpoint público utilizado para login. Devolve um token jwt.
 // request POST /users/login
 // body JSON
 {
-  "email": "beltrana@email.com",
-  "password": "beltrana00"
+  "email": "andrea@email.com",
+  "password": "Andre@123"
 }
 
 // response
@@ -97,15 +97,15 @@ Endpoint protegido, requer um token jwt para acessá-lo.
 // status 200 OK
 [
     {
-        "id": "uma uuid v4",
-        "content": "Hoje vou estudar POO!",
-        "likes": 2,
-        "dislikes" 1,
-        "createdAt": "2023-01-20T12:11:47:000Z"
-        "updatedAt": "2023-01-20T12:11:47:000Z"
+       "id": "db704ae1-18c8-4895-9f54-165af46f66e6",
+        "content": "To cansada e com o corpo doendo!!",
+        "likes": 0,
+        "dislikes": 0,
+        "createdAt": "2023-02-20T19:35:38.841Z",
+        "updatedAt": "2023-02-20T19:37:22.265Z",
         "creator": {
-            "id": "uma uuid v4",
-            "name": "Fulano"
+            "creatorId": "8bc4ea9c-b511-4c14-bedd-16df2a077485",
+            "creatorName": "Andrea"
         }
     },
     {
