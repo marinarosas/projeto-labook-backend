@@ -76,9 +76,9 @@ Para ter uma copia local, siga os passos abaixo:
 ### Instalação
 
 1. Clone do repositório
-   ```sh
-   git clone https://github.com/marinajaudy/labebook-backend.git
-   ```
+  ```sh
+  git clone https://github.com/marinajaudy/labebook-backend.git
+  ```
    
 2. Install NPM TypeScript packages 
   ```sh
@@ -162,7 +162,7 @@ Para ter uma copia local, siga os passos abaixo:
 
 Uma API onde as pessoas se conectam e interagem entre si.
 
-Para iniciar o uso da API primeiramente entre no arquivo.sql na pasta database, crie a tabela users e insira o conteúdo, faça o mesmo com a tabela post. A tabela likes_dislikes deve ser criada, porém não insira nenhum dado nessa tabela, se popular essa tabela acarretará em erros no momento de inserir like e dislike no post.  
+Para iniciar o uso da API primeiramente entre no labebook.sql na pasta database, crie a tabela users e insira o conteúdo, faça o mesmo com a tabela post. A tabela likes_dislikes deve ser criada, porém não insira nenhum dado nessa tabela, se popular essa tabela acarretará em erros no momento de inserir like e dislike no post.  
 
 # Exemplos de requisição
 Não precisa cadastrar o mesmo nome, email e quaisquer outros valores vistos aqui nos exemplos de saída. Porém, lembre-se de respeitar a estrutura pedida no banco de dados (nome das tabelas e colunas) e os nomes das propriedades na resposta da API.
