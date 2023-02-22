@@ -24,7 +24,7 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 ## URLs de acesso
 Documentação da API com as instruções de uso de cada endpoint da aplicação Labebook.<br>
 
-[Labebook API](https://documenter.getpostman.com/view/24460684/2s8ZDU64QY)
+[Labebook API](https://documenter.getpostman.com/view/24460684/2s93CLttsj)
 
 # Lista de requisitos
 
@@ -46,6 +46,123 @@ Documentação da API com as instruções de uso de cada endpoint da aplicação
     - [ ]  POO
     - [ ]  Arquitetura em camadas
     - [ ]  Roteadores no Express
+
+## Métodos
+Requisições para a API devem seguir os padrões:
+| Método | Descrição |
+|---|---|
+| `GET` | Retorna informações de um ou mais registros. |
+| `POST` | Utilizado para criar um novo registro ou acesso a Login. |
+| `PUT` | Atualiza dados de um registro ou altera sua situação. |
+| `DELETE` | Remove um registro do sistema. |
+
+
+## Respostas
+
+| Código | Descrição |
+|---|---|
+| `200` | Requisição executada com sucesso (success).|
+| `201` | Dados creado com sucesso(sucess).|
+| `400` | Erros de validação ou os campos informados não existem no sistema.|
+| `404` | Registro pesquisado não encontrado (Not found).|
+| `500` | Erro inesperado.|
+
+
+## Iniciando 
+
+Esse é um exemplo das intruções de como você configura o projeto localmente.
+Para ter uma copia local, siga os passos abaixo:
+
+### Instalação
+
+1. Clone do repositório
+   ```sh
+   git clone https://github.com/marinajaudy/labebook-backend.git
+   ```
+   
+2. Install NPM TypeScript packages 
+  ```sh
+  npm init -y (cria package.json)
+  ```
+  ```sh
+  npm i -g typescript (faz só 1 vez)
+  ```
+  ```sh
+  npm i typescript -D (instala typescript no projeto)
+  ```
+  ```sh
+  npx tsc -init (criar tsconfig.json)
+  ```
+  
+3. Install NPM Express packages 
+  
+  ```sh
+  npm install express
+  ```
+  ```sh
+  npm install @types/express -D
+  ```
+  
+4. Install NPM Cors packages 
+  
+  ```sh
+  npm install cors
+  ```
+  ```sh
+  npm install @types/cors -D
+  ```
+  
+5. Install NPM Node packages 
+  
+  ```sh
+  npm install ts-node-dev -D
+  ```
+6. Run NPM Identificador Único Universal (UUID)
+
+  ```sh
+  npm install uuid
+   ```
+  ```sh
+  npm install -D @types/uuid
+   ```
+7. Run NPM Variáveis de ambiente (ENV)
+
+  ```sh
+  npm install dotenv
+   ```
+8. Run NPM JWT(Token)
+
+  ```sh
+  npm install jsonwebtoken
+   ```
+```sh
+  npm install -D @types/jsonwebtoken
+   ```
+9. Run NPM Bcrypt
+
+  ```sh
+  npm i bcryptjs
+   ```
+ ```sh
+  npm i -D @types/bcryptjs
+   ```
+10. Run NPM Jest
+
+  ```sh
+  npm i -D jest @types/jest ts-jest
+
+   ```
+11. Run NPM developer
+
+  ```sh
+  npm run dev
+   ```
+
+## Uso
+
+Uma API onde as pessoas se conectam e interagem entre si.
+
+Para iniciar o uso da API primeiramente entre no arquivo.sql na pasta database, crie a tabela users e insira o conteúdo, faça o mesmo com a tabela post. A tabela likes_dislikes deve ser criada, porém não insira nenhum dado nessa tabela, se popular essa tabela acarretará em erros no momento de inserir like e dislike no post.  
 
 # Exemplos de requisição
 Não precisa cadastrar o mesmo nome, email e quaisquer outros valores vistos aqui nos exemplos de saída. Porém, lembre-se de respeitar a estrutura pedida no banco de dados (nome das tabelas e colunas) e os nomes das propriedades na resposta da API.
@@ -209,121 +326,6 @@ Caso dê um dislike em um post que tenha dado like, o dislike sobrescreve o like
 - caso não exista um registro na tabela de relação, é porque a pessoa não deu like nem dislike
 - caso dê like em um post que já tenha dado like, o like é removido (deleta o item da tabela)
 - caso dê dislike em um post que já tenha dado dislike, o dislike é removido (deleta o item da tabela)
-
-## Métodos
-Requisições para a API devem seguir os padrões:
-| Método | Descrição |
-|---|---|
-| `GET` | Retorna informações de um ou mais registros. |
-| `POST` | Utilizado para criar um novo registro ou acesso a Login. |
-| `PUT` | Atualiza dados de um registro ou altera sua situação. |
-| `DELETE` | Remove um registro do sistema. |
-
-
-## Respostas
-
-| Código | Descrição |
-|---|---|
-| `200` | Requisição executada com sucesso (success).|
-| `201` | Dados creado com sucesso(sucess).|
-| `400` | Erros de validação ou os campos informados não existem no sistema.|
-| `404` | Registro pesquisado não encontrado (Not found).|
-| `500` | Erro inesperado.|
-
-
-## Iniciando 
-
-Esse é um exemplo das intruções de como você configura o projeto localmente.
-Para ter uma copia local, siga os passos abaixo:
-
-### Instalação
-
-1. Clone do repositório
-   ```sh
-   git clone https://github.com/marinajaudy/labebook-backend.git
-   ```
-   
-2. Install NPM TypeScript packages 
-  ```sh
-  npm init -y (cria package.json)
-  ```
-  ```sh
-  npm i -g typescript (faz só 1 vez)
-  ```
-  ```sh
-  npm i typescript -D (instala typescript no projeto)
-  ```
-  ```sh
-  npx tsc -init (criar tsconfig.json)
-  ```
-  
-3. Install NPM Express packages 
-  
-  ```sh
-  npm install express
-  ```
-  ```sh
-  npm install @types/express -D
-  ```
-  
-4. Install NPM Cors packages 
-  
-  ```sh
-  npm install cors
-  ```
-  ```sh
-  npm install @types/cors -D
-  ```
-  
-5. Install NPM Node packages 
-  
-  ```sh
-  npm install ts-node-dev -D
-  ```
-6. Run NPM Identificador Único Universal (UUID)
-
-  ```sh
-  npm install uuid
-   ```
-  ```sh
-  npm install -D @types/uuid
-   ```
-7. Run NPM Variáveis de ambiente (ENV)
-
-  ```sh
-  npm install dotenv
-   ```
-8. Run NPM JWT(Token)
-
-  ```sh
-  npm install jsonwebtoken
-   ```
-```sh
-  npm install -D @types/jsonwebtoken
-   ```
-9. Run NPM Bcrypt
-
-  ```sh
-  npm i bcryptjs
-   ```
- ```sh
-  npm i -D @types/bcryptjs
-   ```
-10. Run NPM Jest
-
-  ```sh
-  npm i -D jest @types/jest ts-jest
-
-   ```
-11. Run NPM developer
-
-  ```sh
-  npm run dev
-   ```
-
-## Uso
-
-Uma API onde as pessoas se conectam e interagem entre si.
 
 ## Contato
 
