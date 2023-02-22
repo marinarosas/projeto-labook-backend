@@ -77,7 +77,7 @@ Para ter uma copia local, siga os passos abaixo:
 
 1. Clone do repositório
   ```sh
-  git clone https://github.com/marinajaudy/labebook-backend.git
+  git clone https://github.com/marinajaudy/projeto-labook-backend.git
   ```
    
 2. Install NPM TypeScript packages 
@@ -331,7 +331,7 @@ Caso dê um dislike em um post que tenha dado like, o dislike sobrescreve o like
 
 Marina Jaudy  - marinarrjaudy@hotmail.com
 
-Project Link: [https://github.com/marinajaudy/labebook-backend.git](https://github.com/marinajaudy/labebook-backend.git)
+Project Link: [https://github.com/marinajaudy/projeto-labook-backend.git](https://github.com/marinajaudy/projeto-labook-backend.git)
 <br/>
 
 [![Linkedin](https://img.shields.io/badge/linkedin-%230A66C2.svg?&style=for-the-badge&logo=linkedin&logoColor=white&link=https://www.linkedin.com/in/andrejaques/)](https://www.linkedin.com/in/marina-jaudy)
