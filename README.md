@@ -1,4 +1,4 @@
-# Projeto Labebook
+# Projeto Labook
 
 O Labook é uma rede social com o objetivo de promover a conexão e interação entre pessoas. Quem se cadastrar no aplicativo poderá criar e curtir publicações.<br>
 
@@ -22,9 +22,9 @@ O Labook é uma rede social com o objetivo de promover a conexão e interação 
 ![projeto-labook (2)](https://user-images.githubusercontent.com/29845719/216036534-2b3dfb48-7782-411a-bffd-36245b78594e.png)
 
 ## URLs de acesso
-Documentação da API com as instruções de uso de cada endpoint da aplicação Labebook.<br>
+Documentação da API com as instruções de uso de cada endpoint da aplicação Labook.<br>
 
-[Labebook API](https://documenter.getpostman.com/view/24460684/2s93CLttsj)
+[Labook API](https://documenter.getpostman.com/view/24460684/2s93CLttsj)
 
 # Lista de requisitos
 
@@ -162,7 +162,7 @@ Para ter uma copia local, siga os passos abaixo:
 
 Uma API onde as pessoas se conectam e interagem entre si.
 
-Para iniciar o uso da API primeiramente entre no labebook.sql na pasta database, crie a tabela users e insira o conteúdo, faça o mesmo com a tabela post. A tabela likes_dislikes deve ser criada, porém não insira nenhum dado nessa tabela, se popular essa tabela acarretará em erros no momento de inserir like e dislike no post.  
+Para iniciar o uso da API primeiramente entre no labook.sql na pasta database, crie a tabela users e insira o conteúdo, faça o mesmo com a tabela post. A tabela likes_dislikes deve ser criada, porém não insira nenhum dado nessa tabela, se popular essa tabela acarretará em erros no momento de inserir like e dislike no post.  
 
 # Exemplos de requisição
 Não precisa cadastrar o mesmo nome, email e quaisquer outros valores vistos aqui nos exemplos de saída. Porém, lembre-se de respeitar a estrutura pedida no banco de dados (nome das tabelas e colunas) e os nomes das propriedades na resposta da API.
